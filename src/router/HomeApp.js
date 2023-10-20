@@ -20,7 +20,7 @@ export const HomeApp = () => {
                     <Route path='/new/quotation/:id_quotation' element={<NewQuotation/>} />
                     <Route path='/inprogress/quotation/:id_quotation' element={<InProgressQuotation/>} />
                     <Route path='/registered/quotation/:id_quotation' element={<RegisteredQuotation/>} />
-                    <Route path='/' element={<Navigate to='/cotizacion' />} />
+                    <Route path='/' element={<Navigate to='/cotizacionV2' />} />
                 </Routes>
             </BrowserRouter>
 
