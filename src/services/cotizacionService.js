@@ -117,3 +117,19 @@ export async function JiraASSESS(data) {
 export async function JiraEXEC(data) {
   return await axios.post(api + "/APIJiraExec", data);
 }
+
+
+//NUEVOS SERVICIOS
+
+export async function postAddQuotationDetailRol(data) {
+  console.log(api + "/ssiCotizacionCreatesQuotation")
+  return await axios.post(api + "/ssiCotizacionDetalleRolCreate ", data);
+}
+
+
+export async function getDetailQuotationAllRol(id) {
+
+  return await axios.get(api + "/ssiCotizacionDetalleRolOne/" + id);
+}
+
+

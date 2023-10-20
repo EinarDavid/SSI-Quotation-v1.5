@@ -15,12 +15,22 @@ export const Navigator = () => {
         <div className="containerNavComponents">
           
 
-          <NavLink to={"/cotizacion"}>
+          {/* <NavLink to={"/cotizacion"}>
             {({ isActive }) =>
               isActive ? (
                 <Select Image={Images.COTIZACIONES} Text={"Cotizaciones"} />
               ) : (
                 <UnSelect Image={Images.COTIZACIONES} Text={"Cotizaciones"} />
+              )
+            }
+          </NavLink> */}
+
+          <NavLink to={"/cotizacionV2"}>
+            {({ isActive }) =>
+              isActive ? (
+                <Select Image={Images.COTIZACIONES} Text={"Cotizaciones v1.5"} />
+              ) : (
+                <UnSelect Image={Images.COTIZACIONES} Text={"Cotizaciones v1.5"} />
               )
             }
           </NavLink>

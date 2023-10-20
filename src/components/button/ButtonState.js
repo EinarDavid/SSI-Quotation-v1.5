@@ -1,22 +1,10 @@
 import React from "react";
 
-export const ButtonState = ({ State, InProgress }) => {
-  //console.log('----',State)
+export const ButtonState = ({ State }) => {
+//console.log('----',State)
   return (
     <>
       {State === "NW" || State === "NEW" ? (
-        InProgress === "EN PROGRESO" ? (
-          <>
-          <button
-              className="stateStyle"
-              style={{ background: "var(--bs-placeholder)" }}
-              //onClick={OnClick}
-              //disabled={Disabled}
-            >
-              <p className="stateParrafo">En progreso</p>
-            </button>
-          </>
-        ) : (
           <>
             <button
               className="stateStyle"
@@ -27,8 +15,19 @@ export const ButtonState = ({ State, InProgress }) => {
               <p className="stateParrafo">Nuevo</p>
             </button>
           </>
-        )
-      ) : State === "REG" || State === "REGISTERED" ? (
+        
+      ) : State === "ESTIMADO" || State === "STMD"? (
+        <>
+        <button
+            className="stateStyle"
+            style={{ background: "var(--bs-placeholder)" }}
+            //onClick={OnClick}
+            //disabled={Disabled}
+          >
+            <p className="stateParrafo">Estimado</p>
+          </button>
+        </>
+      ) : State === "REG" || State === "REGISTERED" || State === "SOW APROBADO" ? (
         <>
           <button
             className="stateStyle"
@@ -36,7 +35,7 @@ export const ButtonState = ({ State, InProgress }) => {
             //onClick={OnClick}
             //disabled={Disabled}
           >
-            <p className="stateParrafo">Registrado</p>
+            <p className="stateParrafo">SOW_Aprobado</p>
           </button>
         </>
       ) : State === "CANCEL" ? (
@@ -58,7 +57,7 @@ export const ButtonState = ({ State, InProgress }) => {
             //onClick={OnClick}
             //disabled={Disabled}
           >
-            <p className="stateParrafo">Registrado</p>
+            <p className="stateParrafo">SOW_Aprobado222</p>
           </button>
         </>
       ) : (

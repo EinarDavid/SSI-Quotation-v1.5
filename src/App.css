@@ -33,6 +33,19 @@
   /* justify-content: space-between; */
 }
 
+.AppSecond {
+  background: var(--bs-background);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+
+
 
 
 
@@ -77,6 +90,20 @@
 .containerView::-webkit-scrollbar-thumb {
   background-color: var(--bs-scroll);
   border-radius: 10px;
+}
+
+.containerViewMin {
+  background: var(--bs-white);
+  width: 750px;
+  height: 80%;
+
+  margin-right: 30px;
+  margin-left: 30px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+
 }
 
 .headerContent {
@@ -231,4 +258,5 @@
   width: 50%;
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 }

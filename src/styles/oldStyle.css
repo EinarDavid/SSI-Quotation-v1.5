@@ -1,0 +1,76 @@
+.quotePrimeData {
+    align-items: center;
+    display: flex;
+    height: 48px;
+    justify-content: space-between;
+    margin: 0;
+    width: 100%;
+}
+.halfWidth {
+    width: auto;
+}
+
+.NumberCotizacion {
+    color: #000;
+    font-family: 'Roboto-Regular';
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+
+.containerDatos {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 ;
+    padding: 8px 0;
+    width: 100%;
+}
+.Responsable {
+    padding: 0;
+    width: auto;
+}
+.Description, .Title {
+    font-style: normal;
+    line-height: 18px;
+    margin: 0;
+    padding: 0px;
+    text-align: start;
+}
+.Title {
+    color: #2781b8;
+    font-family: 'Roboto-Bold';
+    font-size: 16px;
+    font-weight: 700;
+}
+.Description {
+    color: #000;
+    font-family: 'Roboto-Regular';
+    font-size: 16px;
+    font-weight: 400;
+    width: 100%;
+    padding: 2px 0;
+}
+.Cliente, .Responsable {
+    height: 40px;
+    margin: 0;
+    overflow: hidden;
+}
+.Horas {
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    width: 10%;
+}
+.FechaCreacion {
+    color: #000;
+    font-family: 'Roboto-Regular';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 15px;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+}

@@ -10,13 +10,16 @@ import { TextInput } from "../textInput/TextInput";
 import { TextNumber } from "../textInput/TextNumber";
 
 export const SectionFilter = ({ Search, search }) => {
+
   const [searchCodigo, setSearchCodigo] = useState(true);
+  const [idOrder, setidOrder] = useState(true)
   const [cliente, setCliente] = useState(true);
   const [responsable, setResponsable] = useState(true);
   const [estado, setEstado] = useState();
   const [tipoProyecto, setTipoProyecto] = useState();
   const [fecha, setFecha] = useState();
   const [totalHoras, setTotalHoras] = useState()
+  const [effort_approved, setEffort_approved] = useState()
 
   const [clients, setClients] = useState();
   const [resources, setResources] = useState();
@@ -41,6 +44,7 @@ export const SectionFilter = ({ Search, search }) => {
       });
 
       getStateRequirement().then(({ data }) => {
+        console.log("ESTADOS", data)
         setStateReq(data);
       });
     } catch (error) {
@@ -52,6 +56,43 @@ export const SectionFilter = ({ Search, search }) => {
   return (
     <>
       <div className="SeccionFilter">
+        <hr className="lineFilter" />
+        <div className="spaceVer5" />
+
+        <div>
+          <div className="titleFilter">
+            <h3 className="titleStyleH3">ID Order</h3>
+            <button
+              className="buttonPrint"
+              onClick={() => setidOrder(!idOrder)}
+            >
+              {idOrder ? (
+                <>
+                  <img src={Images.ARROW_BOTTOM} width={20} alt={"ArrowDown"} />
+                </>
+              ) : (
+                <>
+                  <img src={Images.ARROW_TOP} width={20} alt={"ArrowUp"} />
+                </>
+              )}
+            </button>
+          </div>
+          {idOrder ? (
+            <>
+              <TextInput
+                Name={"id_order"}
+                Placeholder={"Escribe aquí"}
+                OnChange={(e) => {
+                  Search(e);
+                }}
+                Value={search?.id_order || ""}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className="spaceVer5" />
         <hr className="lineFilter" />
         <div className="spaceVer5" />
         <div>
@@ -208,9 +249,9 @@ export const SectionFilter = ({ Search, search }) => {
                 <option value="" >
                   {"Todos"}
                 </option>
-                {stateReq?.map(({ id_catalog, description, cod_value }) => (
+                {stateReq?.map(({ id_catalog, value, cod_value }) => (
                   <option key={id_catalog} value={cod_value}>
-                    {description}
+                    {value}
                   </option>
                 ))}
               </select>
@@ -326,7 +367,7 @@ export const SectionFilter = ({ Search, search }) => {
         <div className="spaceVer5" />
         <div>
           <div className="titleFilter">
-            <h3 className="titleStyleH3">Total Horas</h3>
+            <h3 className="titleStyleH3">Total Horas Estimadas</h3>
             <button
               className="buttonPrint"
               onClick={() => setTotalHoras(!totalHoras)}
@@ -362,6 +403,41 @@ export const SectionFilter = ({ Search, search }) => {
         <div className="spaceVer5" />
         <hr className="lineFilter" />
         <div className="spaceVer5" />
+        <div>
+          <div className="titleFilter">
+            <h3 className="titleStyleH3">Total Horas Aprobadas</h3>
+            <button
+              className="buttonPrint"
+              onClick={() => setEffort_approved(!effort_approved)}
+            >
+              {effort_approved ? (
+                <>
+                  <img src={Images.ARROW_BOTTOM} width={20} alt={"ArrowDown"} />
+                </>
+              ) : (
+                <>
+                  <img src={Images.ARROW_TOP} width={20} alt={"ArrowUp"} />
+                </>
+              )}
+            </button>
+          </div>
+          {effort_approved ? (
+            <>
+              <TextNumber
+                Name={"total_effort_approved"}
+                Placeholder={"Escribe aquí"}
+                OnChange={(e) => {
+                  Search(e);
+                  
+                }}
+
+                Value={search?.total_effort_approved || ""}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     </>
   );

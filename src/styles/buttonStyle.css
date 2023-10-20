@@ -232,3 +232,23 @@ button:active {
     color: var(--bs-primary);
 
 }
+
+.buttonAddFormDisabled {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px 10px;
+    gap: 5px;
+    background: #FFFFFF;
+    border: 1px solid var(--bs-disabled);
+    border-radius: 30px;
+
+    font-family: 'Gotham';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 15px;
+
+    color: var(--bs-disabled);
+
+}

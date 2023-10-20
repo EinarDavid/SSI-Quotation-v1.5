@@ -9,6 +9,7 @@ import './styles/filterStyle.css';
 import './styles/tableStyle.css';
 import './styles/modalStyle.css';
 import './styles/pagination.css';
+import './styles/oldStyle.css';
 
 import { HomeApp } from './router/HomeApp';
 
