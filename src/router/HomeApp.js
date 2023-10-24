@@ -14,13 +14,13 @@ export const HomeApp = () => {
             <BrowserRouter>
                 <Routes>
                     <Route path='/cotizacion' element={< Cotizacion />} />
-                    <Route path='/cotizacionV2' element={< Home />} />
+                    <Route path='/cotizacion-v1.5' element={< Home />} />
                     <Route path='/view/cotizacion/:id_quotation' element={<ViewCotización />} />
                     <Route path='/view/blocked/:id_quotation' element={<CotizaciónBloqued />} />
                     <Route path='/new/quotation/:id_quotation' element={<NewQuotation/>} />
                     <Route path='/inprogress/quotation/:id_quotation' element={<InProgressQuotation/>} />
                     <Route path='/registered/quotation/:id_quotation' element={<RegisteredQuotation/>} />
-                    <Route path='/' element={<Navigate to='/cotizacionV2' />} />
+                    <Route path='/' element={<Navigate to='/cotizacion-v1.5' />} />
                 </Routes>
             </BrowserRouter>
 
