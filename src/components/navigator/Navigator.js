@@ -25,7 +25,7 @@ export const Navigator = () => {
             }
           </NavLink> */}
 
-          <NavLink to={"/cotizacionV2"}>
+          <NavLink to={"/cotizacion-v1.5"}>
             {({ isActive }) =>
               isActive ? (
                 <Select Image={Images.COTIZACIONES} Text={"Cotizaciones v1.5"} />

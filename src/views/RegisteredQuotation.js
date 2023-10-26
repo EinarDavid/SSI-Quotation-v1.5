@@ -229,7 +229,7 @@ export const RegisteredQuotation = ({ callback }) => {
         alert(Jira);
         setValidacionHoras([[]]);
         setDisableButton(false);
-        navigate("/cotizacionV2");
+        navigate("/cotizacion-v1.5");
       });
       
     } catch (error) {
@@ -278,7 +278,7 @@ export const RegisteredQuotation = ({ callback }) => {
               <div className="navTitleContainer">
                 <button
                   className="button_close"
-                  onClick={() => navigate("/cotizacionV2")}
+                  onClick={() => navigate("/cotizacion-v1.5")}
                 >
                   {<img src={Images.PAGELEFT} width={20} alt="icon"></img>}
                 </button>
