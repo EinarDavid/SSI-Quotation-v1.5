@@ -87,6 +87,8 @@ input:focus-visible {
     line-height: 19px;
 
     color: var(--bs-black);
+
+    text-transform: uppercase
 }
 .textInputUppercase{
     text-transform: uppercase;
