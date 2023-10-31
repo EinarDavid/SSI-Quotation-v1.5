@@ -54,6 +54,7 @@ export const RegistroCotizacion = ({
             OnChange={(e) => handleChangeCabecera(e)}
             Value={cabecera?.project_code}
           />
+          
           {changeReq ? (
             <TextInputLabel
               Name="project_chgreq_code"
@@ -66,6 +67,7 @@ export const RegistroCotizacion = ({
           ) : (
             <></>
           )}
+
           <TextInputLabel
             Name="id_order"
             Required={true}
