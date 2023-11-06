@@ -220,11 +220,11 @@ export const InProgressQuotation = ({ callback }) => {
 
         if (data.data.project_type == "ASSESS") {
           const dataAss = await JiraASSESS(data.data);
-          console.log(dataAss.data.message);
+          console.log(dataAss.data.message, dataAss.data.error);
           Jira = dataAss.data.message;
         } else if (data.data.project_type == "EXEC") {
           const dataEx = await JiraEXEC(data.data);
-          console.log(dataEx.data.message);
+          console.log(dataEx.data.message, dataEx.data.error);
           Jira = dataEx.data.message;
         }else{
           Jira = ""

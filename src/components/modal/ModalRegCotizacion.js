@@ -70,12 +70,8 @@ export const ModalRegCotizacion = ({ SetModal, modal, callback }) => {
   };
 
   const handleChangeCabecera = (event) => {
-    if (event.target.name === "project_code") {
-      setCabecera({
-        ...cabecera,
-        [event.target.name]: event.target.value.toUpperCase(),
-      });
-    }
+    
+    
     if (event.target.name === "link_jira") {
       if (!event.target.validity.valid) {
         //console.log("--", event.target.validity.valid);
@@ -87,7 +83,7 @@ export const ModalRegCotizacion = ({ SetModal, modal, callback }) => {
       }
       setCabecera({ ...cabecera, [event.target.name]: event.target.value });
     } else {
-      setCabecera({ ...cabecera, [event.target.name]: event.target.value });
+      setCabecera({ ...cabecera, [event.target.name]: event.target.value.toUpperCase() });
     }
 
     if (event.target.name === "project_type"){
@@ -99,8 +95,16 @@ export const ModalRegCotizacion = ({ SetModal, modal, callback }) => {
         setChangeReq(false)
       }
     }
+    if (event.target.name === "responsible" || event.target.name === "client") {
+      setCabecera({
+        ...cabecera,
+        [event.target.name]: event.target.value,
+      });
+      
+    }
+    //console.log("Value: ",event.target.value)
   };
-
+  //console.log(cabecera)
   useEffect(() => {
     //console.log(cabecera)
     if(changeReq){
