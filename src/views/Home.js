@@ -37,7 +37,7 @@ export const Home = () => {
   });
 
   const handleChangeSearch = (event) => {
-    setSearch({ ...search, [event.target.name]: event.target.value });
+    //setSearch({ ...search, [event.target.name]: event.target.value });
 
     if (event.target.name == "total_effort") {
       //console.log("aqui");
@@ -49,7 +49,7 @@ export const Home = () => {
         setSearch({ ...search, [event.target.name]: value });
       }
     } else {
-      setSearch({ ...search, [event.target.name]: event.target.value });
+      setSearch({ ...search, [event.target.name]: event.target.value.toUpperCase() });
     }
   };
 
@@ -134,7 +134,7 @@ export const Home = () => {
     try {
       postFilters(search)
         .then(({ data }) => {
-          console.log("Res Filter", data);
+          //console.log("Res Filter", data);
           data = data.map((da, i) => ({
             ...da,
             i,
