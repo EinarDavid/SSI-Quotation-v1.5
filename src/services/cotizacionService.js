@@ -132,4 +132,9 @@ export async function getDetailQuotationAllRol(id) {
   return await axios.get(api + "/ssiCotizacionDetalleRolOne/" + id);
 }
 
+export async function postupdateHeaderInformation(data) {
+
+  return await axios.post(api + "/ssiCotizacionUpdateHeaderInformation ", data);
+}
+
 

@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ButtonPrimary } from "../components/button/ButtonPrimary";
@@ -10,10 +8,10 @@ import {
   JiraASSESS,
   JiraEXEC,
   getDetailQuotationAllRol,
-  
   getQuotationOne,
   getRoleAll,
   postAddQuotationDetailRol,
+  postupdateHeaderInformation,
   sendEmail,
 } from "../services/cotizacionService";
 import { convertCurrencyToNumber3 } from "../services/ValidInput";
@@ -22,7 +20,6 @@ import { HeaderQuotation } from "../components/header/HeaderQuotation";
 //import { EnviarEmail } from "../services/Email";
 
 let campoID = 0;
-
 
 export const RegisteredQuotation = ({ callback }) => {
   //let StateDetail = "FCAST";
@@ -34,6 +31,7 @@ export const RegisteredQuotation = ({ callback }) => {
   const [disbaledCheck, setDisbaledCheck] = useState(false);
   const [validUrl, setValidUrl] = useState(false);
   const [cabecera, setCabecera] = useState({});
+  const [cabeceraCopy, setCabeceraCopy] = useState({});
   const [detalle, setDetalle] = useState([
     {
       id_resource_allocation: -1,
@@ -46,23 +44,23 @@ export const RegisteredQuotation = ({ callback }) => {
       effort: 0,
       days: 0.0,
       //state: StateDetail,
-      effort_approved: 0
+      effort_approved: 0,
     },
   ]);
-
 
   const [role, setRole] = useState();
 
   const [validacionHoras, setValidacionHoras] = useState([[]]);
 
-
-
   useEffect(() => {
     if (id_quotation) {
       getQuotationOne(id_quotation).then(({ data }) => {
-        //console.log('data--One', data)
-        data[0] = {...data[0], id_orderOr: data[0]?.id_order}
+        console.log("data--One", data);
+
+        data[0] = { ...data[0], id_orderOr: data[0]?.id_order };
+
         setCabecera(data[0]);
+        setCabeceraCopy(data[0]);
       });
       getDetailQuotationAllRol(id_quotation).then(({ data }) => {
         //console.log("data Detalle--", data);
@@ -73,30 +71,30 @@ export const RegisteredQuotation = ({ callback }) => {
           det.effort = convertCurrencyToNumber3(det.effort);
           det.effort_approved = convertCurrencyToNumber3(det.effort_approved);
         });
-        data.id_resource_allocation= -1;
+        data.id_resource_allocation = -1;
 
         setDetalle(data);
       });
     }
   }, []);
 
-
   const handleChangeDetalle = (event, index) => {
     let campos = [...detalle];
     campos[index][event.target.name] = event.target.value;
 
-    if ( event.target.name === "effort" || event.target.name === "effort_approved") {
-        
+    if (
+      event.target.name === "effort" ||
+      event.target.name === "effort_approved"
+    ) {
       campos[index][event.target.name] = Number(event.target.value);
     }
 
-    if (event.target.name === "effort" ) {
+    if (event.target.name === "effort") {
       let dias = event.target.value / 8;
       campos[index].days = Number(dias.toFixed(2));
 
       //console.log("Dias", campos[index].days);
     }
-
 
     if (event.target.name === "effort") {
       //console.log('---', event.target.value)
@@ -110,25 +108,35 @@ export const RegisteredQuotation = ({ callback }) => {
     }
 
     if (event.target.name === "effort_approved") {
-        //console.log('---', event.target.value)
-        console.log("entro aqui")
-        if (event.target.value === "") {
-          //console.log("OnChange---", event.target.backupEffort);
-  
-          campos[index].effort_approved = Number(0);
-        } else
-          campos[index].effort_approved = convertCurrencyToNumber3(event.target.value);
-      }
+      //console.log('---', event.target.value)
+      console.log("entro aqui");
+      if (event.target.value === "") {
+        //console.log("OnChange---", event.target.backupEffort);
+
+        campos[index].effort_approved = Number(0);
+      } else
+        campos[index].effort_approved = convertCurrencyToNumber3(
+          event.target.value
+        );
+    }
 
     setDetalle(campos);
   };
 
   const handleChangeCabecera = (event) => {
     //console.log("Cabecera", event.target.name, event.target.checked);
-  
-  setCabecera({ ...cabecera, [event.target.name]: event.target.value });
-};
+    if(event.target.name == "statusCheck" ){
+      if(event.target.checked){
+        setDisableButton(false);
+      }
+      else{
+        setDisableButton(true);
+      }
+    }
 
+    setCabecera({ ...cabecera, [event.target.name]: event.target.value });
+
+  };
 
   const validarLimite = (e, limite, index) => {
     //console.log("Limite", limite);
@@ -159,7 +167,7 @@ export const RegisteredQuotation = ({ callback }) => {
         effort: 0,
         days: 0.0,
         //state: StateDetail,
-        effort_approved: 0
+        effort_approved: 0,
       },
     ]);
     //setWeeks([...weeks, []]);
@@ -173,12 +181,10 @@ export const RegisteredQuotation = ({ callback }) => {
 
   useEffect(() => {
     try {
-      
       getRoleAll().then(({ data }) => {
         //console.log('------', data);
         setRole(data);
       });
-     
     } catch (error) {
       alert(error);
     }
@@ -193,45 +199,50 @@ export const RegisteredQuotation = ({ callback }) => {
       data.total_effort_approved = summaEffortApproved;
       data.Campos = detalle;
       data.status = "REG";
-     
+
       console.log("Datos Enviados: ", data);
 
-      postAddQuotationDetailRol(data).then(async ({ data }) => {
-        console.log("Res BD", data);
-        var Jira;
-        
-        if (data.data.project_type == "ASSESS") {
-          const dataAss = await JiraASSESS(data.data);
-          console.log(dataAss.data.message);
-          Jira = dataAss.data.message;
+      if (data.statusCheck) {
+        postupdateHeaderInformation(data).then(async ({ data }) => {
+          alert(data.message);
+          setDisableButton(false);
+          navigate("/cotizacion-v1.5");
+        });
+      } else {
+        postAddQuotationDetailRol(data).then(async ({ data }) => {
+          console.log("Res BD", data);
+          var Jira;
 
-        } else if (data.data.project_type == "EXEC") {
-          const dataEx = await JiraEXEC(data.data);
-          console.log(dataEx.data.message);
-          Jira = dataEx.data.message;
-        }
+          if (data.data.project_type == "ASSESS") {
+            const dataAss = await JiraASSESS(data.data);
+            console.log(dataAss.data.message);
+            Jira = dataAss.data.message;
+          } else if (data.data.project_type == "EXEC") {
+            const dataEx = await JiraEXEC(data.data);
+            console.log(dataEx.data.message);
+            Jira = dataEx.data.message;
+          }
 
-        //Funcion enviar email
-        let dataEmail = cabecera;
-        dataEmail.total_effort = sumaEffort;
-        dataEmail.Campos = detalle;
+          //Funcion enviar email
+          let dataEmail = cabecera;
+          dataEmail.total_effort = sumaEffort;
+          dataEmail.Campos = detalle;
 
-        const emailSend = await sendEmail(dataEmail);
-        console.log(emailSend.data.message);
-        Jira = Jira + "\n" + emailSend.data.message;
-        
+          const emailSend = await sendEmail(dataEmail);
+          console.log(emailSend.data.message);
+          Jira = Jira + "\n" + emailSend.data.message;
 
-        //Callback
-        if (callback) callback();
-        //limpiar cajas, cerrar modal y avisar que fue añadido con exito
+          //Callback
+          if (callback) callback();
+          //limpiar cajas, cerrar modal y avisar que fue añadido con exito
 
-        Jira = Jira + "\n" + data.message;
-        alert(Jira);
-        setValidacionHoras([[]]);
-        setDisableButton(false);
-        navigate("/cotizacion-v1.5");
-      });
-      
+          Jira = Jira + "\n" + data.message;
+          alert(Jira);
+          setValidacionHoras([[]]);
+          setDisableButton(false);
+          navigate("/cotizacion-v1.5");
+        });
+      }
     } catch (error) {
       console.log("----", error);
     }
@@ -240,34 +251,34 @@ export const RegisteredQuotation = ({ callback }) => {
   // Suma de la Horas
   var sum = 0.0;
   var sum_effort_approved = 0.0;
-  
-  detalle.map(({ effort, effort_approved}) => {
-    sum = sum + Number(effort);
-    sum_effort_approved = sum_effort_approved + Number(effort_approved)
 
-    
+  detalle.map(({ effort, effort_approved }) => {
+    sum = sum + Number(effort);
+    sum_effort_approved = sum_effort_approved + Number(effort_approved);
+
     return [sum, sum_effort_approved];
   });
 
   let sumaEffort = sum.toFixed(0);
   let summaEffortApproved = sum_effort_approved.toFixed(0);
 
-
   //valicacion de campos
   useEffect(() => {
-    //var validarStateCheck = true;
-    //console.log("Entro", cabecera?.id_order)
     var validar = true;
-    if(!(cabecera?.id_order !== null && cabecera?.id_order !== "" )){
-      validar= false
-      //console.log("Entro, es igual", cabecera?.id_order);
-    }
 
-    //setDisbaledCheck(!validarStateCheck);
+    if (!(cabecera?.id_order !== null && cabecera?.id_order !== "")) {
+      validar = false;
+      console.log("Entro, es igual", cabecera?.id_order);
+    }
     setDisableButton(!validar);
   }, [cabecera]);
 
-
+  useEffect(() => {
+    if (cabeceraCopy.id_order !== null && cabecera?.id_order !== undefined) {
+      console.log("CARGADO DE DATOS", cabeceraCopy.id_order);
+      setDisableButton(true);
+    }
+  }, [cabeceraCopy]);
 
   return (
     <>
@@ -286,20 +297,28 @@ export const RegisteredQuotation = ({ callback }) => {
                 <h1 className="h1Style">Ver cotización</h1>
               </div>
               <div className="containerButtonRight">
-                <ButtonState State={cabecera?.status} InProgress={cabecera?.inprogress} />
+                <ButtonState
+                  State={cabecera?.status}
+                  InProgress={cabecera?.inprogress}
+                />
               </div>
             </div>
             <div className="spaceVer15" />
             <div className="containerFormulario">
-              
               {/* <ViewCotizacionDisabled cabecera={cabecera} /> */}
 
-              <HeaderQuotation cabecera={cabecera} handleChangeCabecera={handleChangeCabecera}/>
+              <HeaderQuotation
+                cabecera={cabecera}
+                handleChangeCabecera={handleChangeCabecera}
+              />
             </div>
 
             {/* <div className="spaceVer15" /> */}
             <h1 className="h2Style">Recursos</h1>
-            <p className='Description'>La cotización ha sido registrada como SOW APROBADO, por lo tanto, ahora solo puedes acceder al detalle de los recursos</p>
+            <p className="Description">
+              La cotización ha sido registrada como SOW APROBADO, por lo tanto,
+              ahora solo puedes acceder al detalle de los recursos
+            </p>
           </div>
           <div className="spaceVer5" />
           <div className="containerTitleRecurso">
@@ -318,14 +337,12 @@ export const RegisteredQuotation = ({ callback }) => {
           <div className="spaceVer15" />
 
           <div className="detailContainer">
-
             {detalle.map((det, i) => (
               <div
                 key={det.id_resource_allocation}
                 className="columnaContainer"
               >
                 <div className="rowContainer">
-                  
                   <select
                     name="role"
                     className="inputCell inputRole"
@@ -345,18 +362,16 @@ export const RegisteredQuotation = ({ callback }) => {
                   </select>
 
                   <div className="dateContainer">
-
                     <input
                       name="effort"
                       className="inputCell inputHours"
                       type="number"
                       placeholder="Effort"
                       value={det?.effort}
-                        disabled
+                      disabled
                       onChange={(e) => {
                         handleChangeDetalle(e, i);
                       }}
-                      
                     ></input>
 
                     <input
@@ -369,14 +384,11 @@ export const RegisteredQuotation = ({ callback }) => {
                       onChange={(e) => {
                         handleChangeDetalle(e, i);
                       }}
-                      
                     ></input>
                   </div>
 
-                  
-
                   <button
-                  disabled
+                    disabled
                     className="buttonRemoveRow"
                     onClick={() => {
                       handleRemoveDetail(i);
@@ -387,12 +399,15 @@ export const RegisteredQuotation = ({ callback }) => {
                 </div>
 
                 <></>
-                
               </div>
             ))}
 
             <div className="AddInputContainer">
-              <button disabled className="buttonAddFormDisabled" onClick={addInputs}>
+              <button
+                disabled
+                className="buttonAddFormDisabled"
+                onClick={addInputs}
+              >
                 Clic aquí para añadir un nuevo campo
               </button>
             </div>
@@ -401,6 +416,27 @@ export const RegisteredQuotation = ({ callback }) => {
           <hr className="lineFilter" />
           <div className="footerButtons">
             <div className="sectionOne">
+              {cabecera?.id_orderOr !== null &&
+              cabecera?.id_orderOr !== undefined &&
+              cabecera?.id_orderOr !== "" ? (
+                <></>
+              ) : (
+                <>
+                  
+                  <label className="labelInputCheck">
+                    <input
+                      disabled={disbaledCheck}
+                      className="checkbookInput"
+                      type="checkbox"
+                      name="statusCheck"
+                      //onClick={(e) => handleChangeCabecera(e)}
+                      onChange={(e) => handleChangeCabecera(e)}
+                      //value={cabecera.statusCheck}
+                    />
+                    Guardar solo Número de Orden
+                  </label>
+                </>
+              )}
               <ButtonPrimary
                 Style={{ width: "100%" }}
                 Disabled={disableButton}
@@ -409,10 +445,10 @@ export const RegisteredQuotation = ({ callback }) => {
               />
             </div>
             <div className="sectionTwo">
-              
-
               <p className="Effort">Total hrs estimadas: {sumaEffort} </p>
-              <p className="Effort">Total hrs aprobadas: {summaEffortApproved} </p>
+              <p className="Effort">
+                Total hrs aprobadas: {summaEffortApproved}{" "}
+              </p>
             </div>
           </div>
         </div>
@@ -420,6 +456,3 @@ export const RegisteredQuotation = ({ callback }) => {
     </>
   );
 };
-
-
-

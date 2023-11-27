@@ -57,7 +57,7 @@ export const ButtonState = ({ State }) => {
             //onClick={OnClick}
             //disabled={Disabled}
           >
-            <p className="stateParrafo">SOW_Aprobado222</p>
+            <p className="stateParrafo">SOW_Aprobado</p>
           </button>
         </>
       ) : (

@@ -9,7 +9,7 @@ export const HeaderQuotation = ({ cabecera, handleChangeCabecera }) => {
     <div>
       <div className="quotePrimeData">
         <div className="halfWidth">
-          { (cabecera?.id_orderOr !== null && cabecera?.id_orderOr !== undefined) ? (
+          { (cabecera?.id_orderOr !== null && cabecera?.id_orderOr !== undefined && cabecera?.id_orderOr !== "") ? (
             <>
               <h2 className="NumberCotizacion">
                 ID order: {cabecera?.id_order}
