@@ -159,14 +159,19 @@ export const SectionFilter = ({ Search, search }) => {
                 onChange={(e) => Search(e)}
                 value={search?.client || ""}
               >
-                <option value="" >
+                <option value=""   >
                   {"Todos"}
                 </option>
-                {clients?.map(({ id_client, client }) => (
-                  <option key={id_client} value={client}>
-                    {client}
-                  </option>
-                ))}
+                {clients?.map(({ id_client, client }) => {
+                  //console.log("---------",client)
+                  return(
+                
+                    <option key={id_client} value={client}>
+  
+                      {client}
+                    </option>
+                  )
+                })}
               </select>
             </>
           ) : (
@@ -176,7 +181,6 @@ export const SectionFilter = ({ Search, search }) => {
         <div className="spaceVer5" />
         <hr className="lineFilter" />
         <div className="spaceVer5" />
-
         <div>
           <div className="titleFilter">
             <h3 className="titleStyleH3">Responsable</h3>

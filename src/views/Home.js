@@ -38,7 +38,7 @@ export const Home = () => {
 
   const handleChangeSearch = (event) => {
     //setSearch({ ...search, [event.target.name]: event.target.value });
-
+    console.log("---------",event.target.value)
     if (event.target.name == "total_effort") {
       //console.log("aqui");
       const value = event.target.value;
@@ -48,8 +48,11 @@ export const Home = () => {
         //setInputValue(value);
         setSearch({ ...search, [event.target.name]: value });
       }
-    } else {
+    } else if (event.target.name == "id_order" || event.target.name == "project_code"){
       setSearch({ ...search, [event.target.name]: event.target.value.toUpperCase() });
+    }
+     else {
+      setSearch({ ...search, [event.target.name]: event.target.value });
     }
   };
 
@@ -132,9 +135,10 @@ export const Home = () => {
 
   const cargarDatos = () => {
     try {
+      console.log("-----", search)
       postFilters(search)
         .then(({ data }) => {
-          //console.log("Res Filter", data);
+          console.log("Res Filter", data);
           data = data.map((da, i) => ({
             ...da,
             i,
